@@ -60,7 +60,7 @@ public class JPAUnitTestCase {
 	// Add your tests, using standard JUnit.
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Test
-	public void hhh123Test() throws Exception {
+	public void hhh17393Test() throws Exception {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 
