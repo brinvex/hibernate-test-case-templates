@@ -3,46 +3,72 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.hibernate.testcasetemplate</groupId>
-	<artifactId>test-case-template-hibernate-search-6-orm-elasticsearch</artifactId>
+	<artifactId>test-case-template-hibernate-search-7-orm-elasticsearch</artifactId>
 	<version>1.0.0.Final</version>
-	<name>Hibernate Search 6 with Hibernate ORM and Elasticsearch Test Case Template</name>
+	<name>Hibernate Search 7 with Hibernate ORM and Elasticsearch Test Case Template</name>
 
 	<properties>
-		<version.org.hibernate.search>6.2.3.Final</version.org.hibernate.search>
-		<version.org.hibernate>5.6.15.Final</version.org.hibernate>
+		<version.org.hibernate.search>7.0.0.Final</version.org.hibernate.search>
+		<version.org.hibernate.orm>6.4.1.Final</version.org.hibernate.orm>
 
 		<version.com.h2database>2.2.224</version.com.h2database>
-		<version.junit>4.13.2</version.junit>
+		<version.junit-jupiter>5.10.1</version.junit-jupiter>
 		<version.org.assertj.assertj-core>3.24.2</version.org.assertj.assertj-core>
-
-		<version.elasticsearch-maven-plugin>6.26</version.elasticsearch-maven-plugin>
-		<version.org.elasticsearch>7.16.3</version.org.elasticsearch>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.testcontainers</groupId>
+				<artifactId>testcontainers-bom</artifactId>
+				<version>1.19.3</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${version.junit-jupiter}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate.search</groupId>
+				<artifactId>hibernate-search-bom</artifactId>
+				<version>${version.org.hibernate.search}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate.orm</groupId>
+				<artifactId>hibernate-platform</artifactId>
+				<version>${version.org.hibernate.orm}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate.search</groupId>
 			<artifactId>hibernate-search-mapper-orm</artifactId>
-			<version>${version.org.hibernate.search}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.search</groupId>
 			<artifactId>hibernate-search-backend-elasticsearch</artifactId>
-			<version>${version.org.hibernate.search}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>${version.org.hibernate}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-testing</artifactId>
-			<version>${version.org.hibernate}</version>
 		</dependency>
 
 		<dependency>
@@ -51,14 +77,25 @@
 			<version>${version.com.h2database}</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${version.junit}</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
 			<version>${version.org.assertj.assertj-core}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>elasticsearch</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -107,35 +144,6 @@
 								<include>**/*.java</include>
 							</includes>
 						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.github.alexcojocaru</groupId>
-				<artifactId>elasticsearch-maven-plugin</artifactId>
-				<version>${version.elasticsearch-maven-plugin}</version>
-				<configuration>
-					<clusterName>hsearchEsTestCluster</clusterName>
-					<version>${version.org.elasticsearch}</version>
-					<httpPort>9200</httpPort>
-					<pathConf>${project.basedir}/elasticsearch-maven-plugin/configuration/</pathConf>
-					<pathInitScript>${project.basedir}/elasticsearch-maven-plugin/init/init.script</pathInitScript>
-					<autoCreateIndex>false</autoCreateIndex>
-				</configuration>
-				<executions>
-					<execution>
-						<id>start-elasticsearch</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>runforked</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>stop-elasticsearch</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>
