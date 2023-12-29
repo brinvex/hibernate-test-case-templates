@@ -100,7 +100,7 @@ public class JPAUnitTestCase {
 	}
 
 	@Test
-	public void criteriaMultiselectArrayTypes() throws Exception {
+	public void hhh17598Test() throws Exception {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 
