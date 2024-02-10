@@ -130,13 +130,13 @@ public class JPAUnitTestCase {
 			integerIds = entityManager.createQuery(q).getSingleResult();
 		}
 
-		assertTrue(objectIds.getClass().isArray());	//OK
-		assertInstanceOf(Object[].class, objectIds); //OK
-		assertArrayEquals(new Object[]{emp1.id, emp1.id}, (Object[]) objectIds); //OK
+		assertTrue(objectIds.getClass().isArray());
+		assertInstanceOf(Object[].class, objectIds);
+		assertArrayEquals(new Object[]{emp1.id, emp1.id}, (Object[]) objectIds);
 
-        assertTrue(integerIds.getClass().isArray()); //OK in 6.1.7, FAILS in 6.2, 6.3, 6.4
-        assertInstanceOf(Object[].class, integerIds); //OK in 6.1.7, FAILS in 6.2, 6.3, 6.4
-        assertArrayEquals(new Object[]{emp1.id, emp1.id}, (Object[]) integerIds); //OK in 6.1.7, FAILS in 6.2, 6.3, 6.4
+        assertTrue(integerIds.getClass().isArray()); //OK in 6.1.7, FAILS in 6.2, 6.3, 6.4.0, 6.4.1, 6.4.2
+        assertInstanceOf(Object[].class, integerIds); //OK in 6.1.7, FAILS in 6.2, 6.3, 6.4.0, 6.4.1, 6.4.2
+        assertArrayEquals(new Object[]{emp1.id, emp1.id}, (Object[]) integerIds); //OK in 6.1.7, FAILS in 6.2, 6.3, 6.4.0, 6.4.1, 6.4.2
 
 		entityManager.getTransaction().commit();
 		entityManager.close();
