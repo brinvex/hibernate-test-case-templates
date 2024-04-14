@@ -141,4 +141,33 @@ public class JPAUnitTestCase {
 		entityManager.getTransaction().commit();
 		entityManager.close();
 	}
+
+	@Test
+	public void hhh17956Test() throws Exception {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		entityManager.getTransaction().begin();
+
+		Employee emp1 = new Employee();
+		emp1.id = 1;
+		entityManager.persist(emp1);
+		entityManager.flush();
+		entityManager.clear();
+
+		List<Integer[]> idPairs;
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Integer[]> q = cb.createQuery(Integer[].class);
+        Root<Employee> r = q.from(Employee.class);
+        q.multiselect(List.of(r.get("id"), r.get("id")));
+        idPairs = entityManager.createQuery(q).getResultList();
+
+        Object rawIdPair0 = idPairs.get(0);
+		assertInstanceOf(Integer[].class, rawIdPair0);
+
+		Integer[] idPair0 = (Integer[]) rawIdPair0;
+		assertEquals(1, idPair0[0]);
+		assertEquals(1, idPair0[1]);
+
+		entityManager.getTransaction().commit();
+		entityManager.close();
+	}
 }
