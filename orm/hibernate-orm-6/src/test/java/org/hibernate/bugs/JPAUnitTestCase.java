@@ -142,6 +142,10 @@ public class JPAUnitTestCase {
 		entityManager.close();
 	}
 
+	/**
+	 * HHH-17956
+	 * Criteria multiselect ignores type of the criteria query and always returns list of Object[]
+	 */
 	@Test
 	public void hhh17956Test() throws Exception {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
